@@ -27,10 +27,9 @@ Pipeline:
     5. Canny (Provided).
     6. Retrieve region of interest by applying the trapezoid.
     7. Hough Transformation (Provided). In hough_transform I am supplying one additional parameter trapezoid length for draw_lines function.
-    8. Drawing lane lines. In draw_lines function I am using 0(zero) as my threshold for distuingishing between left and right slope.  
-    
-    
-    
+    8. Drawing lane lines. I opted out from distinguishing right/left slopes. Instead I seperate left and right points into arrays and use linear regression to get the line parameters (scipy.stats.linregress). 
+    After that I identify the max y-point for the lines to draw from the "polygon" I passed earlier. 
+    In the end I identify my left and right x values and draw the lines accordingly. 
       
 Result:
 
