@@ -27,7 +27,7 @@ Pipeline:
     5. Canny (Provided).
     6. Retrieve region of interest by applying the trapezoid.
     7. Hough Transformation (Provided). In hough_transform I am supplying one additional parameter trapezoid length for draw_lines function.
-    8. Drawing lane lines.
+    8. Drawing lane lines. In draw_lines function I am using 0(zero) as my threshold for distuingishing between left and right slope.  
     
     
     
