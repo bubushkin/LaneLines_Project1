@@ -245,13 +245,14 @@ def color_filter(image):
 def process():
 
 
-    cap = cv2.VideoCapture('../../resources/video/challenge.mp4')
+    cap = cv2.VideoCapture('resources/video/solidYellowLeft.mp4')
+    outfilename = 'resources/video/result/outputSolidYellowLeft.mp4';
     fourcc = cv2.VideoWriter_fourcc(*'mp4v') 
     
     width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH) + 0.5)
     height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT) + 0.5)
     
-    out = cv2.VideoWriter('../../resources/video/outputChallenge.mp4', fourcc, 20, (width,height));
+    out = cv2.VideoWriter(outfilename, fourcc, 20, (width,height));
 
     while(cap.isOpened()):
         ret, image = cap.read()
@@ -284,6 +285,7 @@ def process():
     cap.release();
     out.release();
     cv2.destroyAllWindows();
+    return outfilename;
 
 if(__name__ == "__main__"):
     process();
