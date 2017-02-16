@@ -32,5 +32,8 @@ Pipeline:
     In the end I identify my left and right x values and draw the lines accordingly. 
       
 Result:
+    ![Alt text](https://github.com/bubushkin/LaneLines_Project1/blob/master/resources/images/results/outputSolidWhiteRight.png "solidWhiteRight")
+    ![Alt text](https://github.com/bubushkin/LaneLines_Project1/blob/master/resources/images/results/outputSolidYellowLeft.png "solidYellowLeft")
 
 Improvements:
+    An improvement I could make is to seperate out ranges for YELLOW and WHITE colors and make the range shorter. Instead of processing them as a single unit. My current design breaks on challange video when Car passes concrete road where YELLOW and WHITE are difficult to identify. 
