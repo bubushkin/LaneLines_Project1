@@ -9,7 +9,7 @@ Pipeline:
           C: (63rd percent of x axis, 62nd percent of y axis)
           D: (95th percent of x axis, 100th percent of y axis)
     -Color filter(provided)
-    -
+    
       
 Result:
 
