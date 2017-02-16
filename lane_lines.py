@@ -12,6 +12,8 @@ import math;
 from scipy import stats;
 from scipy.spatial.distance import euclidean
 
+NoneType = type(None); #back to python 2.7 :)
+
 param = {
         'rho': 2,
         'theta': np.pi / 180,
@@ -124,12 +126,6 @@ def draw_lines(img, lines, color=[0, 255, 0], thickness=2, polygon=None):
     If you want to make the lines semi-transparent, think about combining
     this function with the weighted_img() function below
     """
-    avg = 0x0;
-    avg_left_slope = 0x0;
-    avg_right_slope = 0x0;
-    
-    left_slope = []
-    right_slope = []
     
     x_right_line = [];
     y_right_line = [];
@@ -147,20 +143,11 @@ def draw_lines(img, lines, color=[0, 255, 0], thickness=2, polygon=None):
         for x1,y1,x2,y2 in line:
             
             
-            
-            slope = ((y2-y1)/(x2-x1));
-            
             if(x1 > x_center and x2 > x_center):
                 right_line.append(line);
             else:
                 left_line.append(line);
                 
-            if(slope < 0x0):
-                left_slope.append(slope);
-                
-            elif(slope >= 0x0):
-                right_slope.append(slope);
-            
             for i in left_line:
                 for x1,y1,x2,y2 in i:
                     x_left_line.append(x1);
@@ -202,12 +189,8 @@ def draw_lines(img, lines, color=[0, 255, 0], thickness=2, polygon=None):
     left_x1 = int((y1 - left_b) / left_m)
     left_x2 = int((y2 - left_b) / left_m)    
                     
-    avg_left_slope = np.mean(left_slope, dtype=np.float)
-#    avg_right_slope = np.mean(right_slope, dtype=np.float);
-    
     cv2.line(img, (right_x1, y1), (right_x2, y2), color, thickness)
     cv2.line(img, (left_x1, y1), (left_x2, y2), color, thickness)
-                #cv2.line(img, (x1, y1), (x2, y2), color, thickness)
 
 def hough_lines(img, rho, theta, threshold, min_line_len, max_line_gap, polygon):
     """
@@ -257,28 +240,29 @@ def process():
     while(cap.isOpened()):
         ret, image = cap.read()
     
-        poly = polygon(image.shape);
+        if not (isinstance(image, NoneType)):
+            poly = polygon(image.shape);
     
-        poly_length = poly_len(poly);
+            poly_length = poly_len(poly);
     
-        filtered_image = color_filter(image);
-
-        gray = grayscale(filtered_image);
+            filtered_image = color_filter(image);
     
-        blur_image = gaussian_blur(gray, param['kernel']);
-
-        edge_masked = canny(blur_image, param['edge_low_threshold'], param['edge_high_threshold'])
+            gray = grayscale(filtered_image);
+        
+            blur_image = gaussian_blur(gray, param['kernel']);
     
-        masked = region_of_interest(edge_masked, poly)
+            edge_masked = canny(blur_image, param['edge_low_threshold'], param['edge_high_threshold'])
+        
+            masked = region_of_interest(edge_masked, poly)
+        
+            hough = hough_lines(masked, param['rho'], param['theta'], param['threshold'], param['min_line_len'], param['max_line_gap'], poly_length);
+        
+            res = weighted_img(hough, image);
+        
+            cv2.imshow('image', res);
     
-        hough = hough_lines(masked, param['rho'], param['theta'], param['threshold'], param['min_line_len'], param['max_line_gap'], poly_length);
+            out.write(res);
     
-        res = weighted_img(hough, image);
-    
-        cv2.imshow('image', res);
-
-        out.write(res);
-
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
 
